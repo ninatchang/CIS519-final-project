@@ -78,3 +78,7 @@ def parse_imdb_data(file_path):
 
 	return (review_str_list, labels_list)
 
+if __name__ == "__main__":
+	testing_amazon = "./data/test.ft.txt"
+	a, b = parse_amazon_data(testing_amazon)
+	print(a[0])
