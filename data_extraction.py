@@ -5,6 +5,8 @@ from nltk.corpus import wordnet as wn
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn import metrics
 
 def parse_amazon_data(file_path):
 	'''
@@ -36,18 +38,19 @@ def parse_amazon_data(file_path):
 
 	return (review_str_list, labels_list)
 
-def parse_amazon_data_sklearn(file_path):
+def parse_amazon_data_sklearn(file_path, count_vect, training):
 	'''
 	This function parses amazon data. It retrieves the reviews and good/bad label.
 
 	:param file_path: file_path: path to traing/testing files
 			-./data/test.ft.txt
 			-./data/train.ft.txt
+	:param count_vect: vectorizer
+	:param training: 1 if training data
+					 0 if testing data
 	:return:
 		a sparse matrix w/ each row being a document and coluumn being a word
 	'''
-
-	count_vect = CountVectorizer(stop_words='english')
 
 	review_str_list = []
 	labels_list = []
@@ -63,9 +66,12 @@ def parse_amazon_data_sklearn(file_path):
 			review_str_list.append(words)
 			labels_list.append(label)
 
-	X_train_counts = count_vect.fit_transform(review_str_list)
+	if training:
+		X_counts = count_vect.fit_transform(review_str_list)
+	else:
+		X_counts = count_vect.transform(review_str_list)
 
-	return (X_train_counts, labels_list)
+	return (X_counts, labels_list)
 
 def parse_imdb_data(file_path):
 	'''
@@ -103,16 +109,18 @@ def parse_imdb_data(file_path):
 	return (review_str_list, labels_list)
 
 
-def parse_imdb_data_sklearn(file_path):
+def parse_imdb_data_sklearn(file_path, count_vect, training):
 	'''
 
-	:param file_path: file_path: path to training/testing files
+	:param file_path: path to training/testing files
 			-./data/aclImdb/train
 			-./data/aclImdb/test
+	:param count_vect: vectorizer
+	:param training: 1 if training data
+					 0 if testing data
 	:return:
 		a sparse matrix w/ each row being a document and coluumn being a word
 	'''
-	count_vect = CountVectorizer(stop_words='english')
 
 	review_str_list = []
 	labels_list = []
@@ -134,9 +142,17 @@ def parse_imdb_data_sklearn(file_path):
 			review_str_list.append(words)
 			labels_list.append(label)
 
-	X_train_counts = count_vect.fit_transform(review_str_list)
+	if training:
+		X_counts = count_vect.fit_transform(review_str_list)
+	else:
+		X_counts = count_vect.transform(review_str_list)
 
-	return (X_train_counts, labels_list)
+	return (X_counts, labels_list)
+
+def naive_bayes(x, y):
+	nb = MultinomialNB()
+	nb = nb.fit(x, y)
+	return nb
 
 if __name__ == "__main__":
 	training_amazon = "./data/train.ft.txt"
@@ -144,6 +160,17 @@ if __name__ == "__main__":
 	training_imdb = "./data/aclImdb/train"
 	testing_imdb = "./data/aclImdb/test"
 
-	# a, b = parse_amazon_data_sklearn(testing_amazon)
+	count_vect = CountVectorizer(stop_words='english')
+
+	amazon_training_x, amazon_training_y = parse_amazon_data_sklearn(training_amazon, count_vect, 1)
+	print("loaded trianing daata")
+	amazon_testing_x, amazon_testing_y = parse_amazon_data_sklearn(testing_amazon, count_vect, 0)
+	print("loaded testing data")
+	nb = naive_bayes(amazon_training_x, amazon_training_y)
+	print("classifier trained")
+	amazon_pred_label = nb.predict(amazon_testing_x)
+	print("predictions made")
+	score = metrics.accuracy_score(amazon_pred_label, amazon_testing_y)
+	print("score = " + str(score))
 	# c, d = parse_imdb_data_sklearn(testing_imdb)
 	# print(a[0])
