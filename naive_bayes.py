@@ -161,17 +161,54 @@ if __name__ == "__main__":
 	training_imdb = "./data/aclImdb/train"
 	testing_imdb = "./data/aclImdb/test"
 
+	# train on amazon -> test on imdb
+	print("train on amazon, test on imdb")
+
 	# uncomment to run naive bayes
-	# count_vect = CountVectorizer(stop_words='english')
-	#
-	# amazon_training_x, amazon_training_y = parse_amazon_data_count_matrix(training_amazon, count_vect, 1)
-	# print("loaded trianing daata")
-	# amazon_testing_x, amazon_testing_y = parse_amazon_data_count_matrix(testing_amazon, count_vect, 0)
-	# print("loaded testing data")
-	# nb = naive_bayes(amazon_training_x, amazon_training_y)
-	# print("classifier trained")
-	# amazon_pred_label = nb.predict(amazon_testing_x)
-	# print("predictions made")
-	# score = metrics.accuracy_score(amazon_pred_label, amazon_testing_y)
-	# print("score = " + str(score))
-	# c, d = parse_imdb_data_sklearn(testing_imdb)
+	count_vect = CountVectorizer(stop_words='english')
+
+	amazon_training_x, amazon_training_y = parse_amazon_data_count_matrix(training_amazon, count_vect, 1)
+	print("loaded amazon training data")
+	amazon_testing_x, amazon_testing_y = parse_amazon_data_count_matrix(testing_amazon, count_vect, 0)
+	print("loaded amazon testing data")
+	imdb_testing_x, imdb_testing_y = parse_imdb_data_count_matrix(testing_imdb, count_vect, 0)
+	print("loaded imdb testing data")
+
+
+	nb1 = naive_bayes(amazon_training_x, amazon_training_y)
+	print("classifier trained")
+	amazon_pred_label1 = nb1.predict(amazon_testing_x)
+	print("amazon predictions made")
+	amazon_score1 = metrics.accuracy_score(amazon_pred_label1, amazon_testing_y)
+	print("amazon score = " + str(amazon_score1))
+	imdb_pred_label1 = nb1.predict(imdb_testing_x)
+	print("imdb predictions made")
+	imdb_score1 = metrics.accuracy_score(imdb_pred_label1, imdb_testing_y)
+	print("amazon score = " + str(imdb_score1))
+
+
+	#####################################################################################################
+	# train on imdb -> test on amazon
+	print("train on imdb, test on amazon")
+
+	# uncomment to run naive bayes
+	count_vect = CountVectorizer(stop_words='english')
+
+	imdb_training_x, imdb_training_y = parse_imdb_data_count_matrix(training_imdb, count_vect, 1)
+	print("loaded imdb training data")
+	imdb_testing_x, imdb_testing_y = parse_imdb_data_count_matrix(testing_imdb, count_vect, 0)
+	print("loaded imdb testing data")
+	amazon_testing_x, amazon_testing_y = parse_amazon_data_count_matrix(testing_amazon, count_vect, 0)
+	print("loaded amazon testing data")
+
+
+	nb2 = naive_bayes(imdb_training_x, imdb_training_y)
+	print("classifier trained")
+	imdb_pred_label2 = nb2.predict(imdb_testing_x)
+	print("imdb predictions made")
+	imdb_score2 = metrics.accuracy_score(imdb_pred_label2, imdb_testing_y)
+	print("imdb score = " + str(imdb_score2))
+	amazon_pred_label2 = nb2.predict(amazon_testing_x)
+	print("amazon predictions made")
+	amazon_score2 = metrics.accuracy_score(amazon_pred_label2, amazon_testing_y)
+	print("amazon score = " + str(amazon_score2))
