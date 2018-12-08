@@ -30,10 +30,11 @@ def parse_amazon_data(file_path):
 		for line in f:
 			label_str, review_str = line.split(' ', 1)
 			label = int(label_str[-1]) - 1		# original data is labeled with 1 and 2. change to labels of 0 and 1
-			words = [lemmatizer(w) for w in review_str.lower().split() if w not in stopwords_set]	# get the words out
+			# words = [lemmatizer(w) for w in review_str.lower().split() if w not in stopwords_set]	# get the words out
+			review_str_list.append(review_str_list.lower())
 		
 			# Not too sure what the best DS is here but gonna store everything in list for now
-			review_str_list.append(words)
+			# review_str_list.append(words)
 			labels_list.append(label)
 
 	return (review_str_list, labels_list)
