@@ -7,6 +7,8 @@ from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
+import numpy as np
+import matplotlib.pyplot as plt
 
 def parse_amazon_data(file_path):
 	'''
@@ -155,6 +157,33 @@ def naive_bayes(x, y):
 	nb = nb.fit(x, y)
 	return nb
 
+def run_naive_bayes(x_train, y_train, amazon_test_x, amazon_test_y, imdb_test_x, imdb_test_y):
+	x = []
+	amazon_testing_score = []
+	imdb_testing_score = []
+	for i in range(0, len(x_train), 100):
+		x.append(i)
+		nb = naive_bayes(x_train, y_train)
+		amazon_pred_label = nb.predict(amazon_testing_x)
+		amazon_score = metrics.accuracy_score(amazon_pred_label, amazon_testing_y)
+		amazon_testing_score.append(amazon_score)
+		imdb_pred_label = nb.predict(imdb_testing_x)
+		imdb_score = metrics.accuracy_score(imdb_pred_label, imdb_testing_y)
+		imdb_testing_score.append(imdb_score)
+
+	x = np.array(x)
+	amazon_testing_score = np.array(amazon_testing_score)
+	imdb_testing_score = np.array(imdb_testing_score)
+
+	plt.plot(x, amazon_testing_score)
+	plt.plot(x, imdb_testing_score)
+
+	plt.legend(['Amazon testing accuracy', 'IMDB testing accuracy'], loc='upper left')
+	plt.title('Amazon vs. IMDB testing accuracy')
+	plt.ylabel('Accuracy')
+	plt.xlabel('Training data size')
+	plt.show()
+
 if __name__ == "__main__":
 	training_amazon = "./data/train.ft.txt"
 	testing_amazon = "./data/test.ft.txt"
@@ -174,6 +203,7 @@ if __name__ == "__main__":
 	imdb_testing_x, imdb_testing_y = parse_imdb_data_count_matrix(testing_imdb, count_vect, 0)
 	print("loaded imdb testing data")
 
+	run_naive_bayes(amazon_training_x, amazon_training_y, amazon_testing_x, amazon_testing_y, imdb_testing_x, imdb_testing_y)
 
 	nb1 = naive_bayes(amazon_training_x, amazon_training_y)
 	print("classifier trained")
@@ -201,6 +231,8 @@ if __name__ == "__main__":
 	amazon_testing_x, amazon_testing_y = parse_amazon_data_count_matrix(testing_amazon, count_vect, 0)
 	print("loaded amazon testing data")
 
+	run_naive_bayes(imdb_training_x, imdb_training_y, amazon_testing_x, amazon_testing_y, imdb_testing_x,
+					imdb_testing_y)
 
 	nb2 = naive_bayes(imdb_training_x, imdb_training_y)
 	print("classifier trained")
