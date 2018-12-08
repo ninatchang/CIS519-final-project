@@ -161,7 +161,7 @@ def run_naive_bayes(x_train, y_train, amazon_test_x, amazon_test_y, imdb_test_x,
 	x = []
 	amazon_testing_score = []
 	imdb_testing_score = []
-	for i in range(100, x_train.shape[0], 100):
+	for i in range(100000, x_train.shape[0], 100000):
 		x.append(i)
 		nb = naive_bayes(x_train[:i], y_train[:i])
 		amazon_pred_label = nb.predict(amazon_test_x)
@@ -214,7 +214,7 @@ if __name__ == "__main__":
 	imdb_pred_label1 = nb1.predict(imdb_testing_x)
 	print("imdb predictions made")
 	imdb_score1 = metrics.accuracy_score(imdb_pred_label1, imdb_testing_y)
-	print("amazon score = " + str(imdb_score1))
+	print("imdb score = " + str(imdb_score1))
 
 
 	#####################################################################################################
