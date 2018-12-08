@@ -38,7 +38,7 @@ def parse_amazon_data(file_path):
 
 	return (review_str_list, labels_list)
 
-def parse_amazon_data_sklearn(file_path, count_vect, training):
+def parse_amazon_data_count_matrix(file_path, count_vect, training):
 	'''
 	This function parses amazon data. It retrieves the reviews and good/bad label.
 
@@ -109,7 +109,7 @@ def parse_imdb_data(file_path):
 	return (review_str_list, labels_list)
 
 
-def parse_imdb_data_sklearn(file_path, count_vect, training):
+def parse_imdb_data_count_matrix(file_path, count_vect, training):
 	'''
 
 	:param file_path: path to training/testing files
@@ -160,17 +160,17 @@ if __name__ == "__main__":
 	training_imdb = "./data/aclImdb/train"
 	testing_imdb = "./data/aclImdb/test"
 
-	count_vect = CountVectorizer(stop_words='english')
-
-	amazon_training_x, amazon_training_y = parse_amazon_data_sklearn(training_amazon, count_vect, 1)
-	print("loaded trianing daata")
-	amazon_testing_x, amazon_testing_y = parse_amazon_data_sklearn(testing_amazon, count_vect, 0)
-	print("loaded testing data")
-	nb = naive_bayes(amazon_training_x, amazon_training_y)
-	print("classifier trained")
-	amazon_pred_label = nb.predict(amazon_testing_x)
-	print("predictions made")
-	score = metrics.accuracy_score(amazon_pred_label, amazon_testing_y)
-	print("score = " + str(score))
+	# uncomment to run naive bayes
+	# count_vect = CountVectorizer(stop_words='english')
+	#
+	# amazon_training_x, amazon_training_y = parse_amazon_data_count_matrix(training_amazon, count_vect, 1)
+	# print("loaded trianing daata")
+	# amazon_testing_x, amazon_testing_y = parse_amazon_data_count_matrix(testing_amazon, count_vect, 0)
+	# print("loaded testing data")
+	# nb = naive_bayes(amazon_training_x, amazon_training_y)
+	# print("classifier trained")
+	# amazon_pred_label = nb.predict(amazon_testing_x)
+	# print("predictions made")
+	# score = metrics.accuracy_score(amazon_pred_label, amazon_testing_y)
+	# print("score = " + str(score))
 	# c, d = parse_imdb_data_sklearn(testing_imdb)
-	# print(a[0])
