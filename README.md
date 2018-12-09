@@ -11,7 +11,7 @@
 ## Dataset formats:
 [Amazon data format](https://www.kaggle.com/bittlingmayer/amazonreviews)
 
-[IMDB data format](https://www.kaggle.com/utathya/imdb-review-dataset)
+[IMDB data format](https://www.kaggle.com/iarunava/imdb-movie-reviews-dataset)
 
 ## Papers to read:
 [Mohammadamir Kavousi, Sepehr Saadatmand. Estimating the Rating of Reviewers Based on the Text.](https://arxiv.org/pdf/1805.08415.pdf)
