@@ -3,6 +3,8 @@
 ## Proposal document: 
 [Proposal link](https://docs.google.com/document/d/1Jne0MuM2cMWC3dAfcDGKEpczjLX00WCqvsA_WoUBvA8/edit)
 
+## Poster Slide Deck:
+[Poster slides](https://www.icloud.com/keynote/0w76UJjySulWO7B4dMWE5jqeQ#CIS_519_Final_Poster)
 
 ## Dataset folder: 
 [Google drive link](https://drive.google.com/file/d/1jB2BB_Qdl6kzIzwIqRbWhRArbhX-YU8z/view?usp=sharing)
