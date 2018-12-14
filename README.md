@@ -6,6 +6,9 @@
 ## Poster Slide Deck:
 [Poster slides](https://www.icloud.com/keynote/0w76UJjySulWO7B4dMWE5jqeQ#CIS_519_Final_Poster)
 
+## Final Report:
+[Report link](https://www.overleaf.com/5529767279gwnfdyrrzkny)
+
 ## Dataset folder: 
 [Google drive link](https://drive.google.com/file/d/1jB2BB_Qdl6kzIzwIqRbWhRArbhX-YU8z/view?usp=sharing)
 
